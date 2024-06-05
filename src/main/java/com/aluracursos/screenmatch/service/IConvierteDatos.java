@@ -1,4 +1,4 @@
-package com.aluracursos.screenmatch.model;
+package com.aluracursos.screenmatch.service;
 
 public interface IConvierteDatos {
     //T tipo de datos genericos

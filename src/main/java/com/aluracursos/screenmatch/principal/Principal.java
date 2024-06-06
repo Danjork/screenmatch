@@ -3,9 +3,11 @@ package com.aluracursos.screenmatch.principal;
 import com.aluracursos.screenmatch.model.DatosEpisodio;
 import com.aluracursos.screenmatch.model.DatosSerie;
 import com.aluracursos.screenmatch.model.DatosTemporadas;
+import com.aluracursos.screenmatch.model.Episodio;
 import com.aluracursos.screenmatch.service.ConsumoAPI;
 import com.aluracursos.screenmatch.service.ConvierteDatos;
 
+import javax.crypto.ExemptionMechanismSpi;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -56,14 +58,26 @@ public class Principal {
                 //por cada temporada = t van a tener episodios
                 .flatMap(t -> t.episodios().stream())
                 .collect(Collectors.toList());
+
         //Top 5
         System.out.println("Top 5 Episodios");
-                
+
         datosEpisodios.stream()
                 .filter(e -> !e.evaluacion().equalsIgnoreCase("N/A"))
                 .sorted(Comparator.comparing(DatosEpisodio::evaluacion).reversed())
                 .limit(5)//top 5
                 .forEach(System.out::println);
+
+        System.out.println("Episodios temporadas");
+        //convertir los datos a una lista episodio
+        List<Episodio> episodios = temporadas.stream()
+                .flatMap(t -> t.episodios().stream()
+                        .map(d -> new Episodio(t.numero(),d)))
+                .collect(Collectors.toList());
+        episodios.forEach(System.out::println);
+
+        System.out.println("Fin episodios temporadas");
+
     }
 
 }

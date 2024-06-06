@@ -7,8 +7,10 @@ import com.aluracursos.screenmatch.service.ConsumoAPI;
 import com.aluracursos.screenmatch.service.ConvierteDatos;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Principal {
 
@@ -50,6 +52,18 @@ public class Principal {
 //Mostrar solo el titulo de los episodios forma corta usando lamda
         temporadas.forEach(t -> t.episodios().forEach(e -> System.out.println(e.titulo())));
 
+        List<DatosEpisodio> datosEpisodios =  temporadas.stream()
+                //por cada temporada = t van a tener episodios
+                .flatMap(t -> t.episodios().stream())
+                .collect(Collectors.toList());
+        //Top 5
+        System.out.println("Top 5 Episodios");
+                
+        datosEpisodios.stream()
+                .filter(e -> !e.evaluacion().equalsIgnoreCase("N/A"))
+                .sorted(Comparator.comparing(DatosEpisodio::evaluacion).reversed())
+                .limit(5)//top 5
+                .forEach(System.out::println);
     }
 
 }

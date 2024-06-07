@@ -103,18 +103,23 @@ public class Principal {
 //        ));
 
 
-        System.out.println("Escribe el titulo de deseas ver");
-        var pedazoTitulo = teclado.nextLine();
-        Optional<Episodio> episodioBuscado = episodios.stream()
-                .filter(e -> e.getTitulo().toUpperCase().contains(pedazoTitulo.toUpperCase()))//buscar el resultado
-                .findFirst();//buscar
-        if(episodioBuscado.isPresent()){
-            System.out.println(" Episodio encontrado");
-            System.out.println("Los datos son: " + episodioBuscado.get());
-        }else {
-            System.out.println("Episodio no encontrado");
-        }
+//        System.out.println("Escribe el titulo de deseas ver");
+//        var pedazoTitulo = teclado.nextLine();
+//        Optional<Episodio> episodioBuscado = episodios.stream()
+//                .filter(e -> e.getTitulo().toUpperCase().contains(pedazoTitulo.toUpperCase()))//buscar el resultado
+//                .findFirst();//buscar
+//        if(episodioBuscado.isPresent()){
+//            System.out.println(" Episodio encontrado");
+//            System.out.println("Los datos son: " + episodioBuscado.get());
+//        }else {
+//            System.out.println("Episodio no encontrado");
+//        }
 
+        Map<Integer , Double> evaluacionesPorTemporada = episodios.stream()
+                .filter(e -> e.getEvaluacion() > 0.0)//cuando sea mayor que 0.0 mostrar los datos
+                .collect(Collectors.groupingBy(Episodio::getTemporada,
+                        Collectors.averagingDouble(Episodio::getEvaluacion)));
+        System.out.println(evaluacionesPorTemporada);
     }
 
 }

@@ -11,10 +11,7 @@ import javax.crypto.ExemptionMechanismSpi;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Principal {
@@ -63,18 +60,18 @@ public class Principal {
                 .collect(Collectors.toList());
 
         //Top 5
-        System.out.println("Top 5 Episodios");
-
-        datosEpisodios.stream()
-                .filter(e -> !e.evaluacion().equalsIgnoreCase("N/A"))
-                .peek(e -> System.out.println("Primer filtro N/A" + e))
-                .sorted(Comparator.comparing(DatosEpisodio::evaluacion).reversed())
-                .peek(e -> System.out.println("Primer ordenar (M>m) " + e))
-                .map(e -> e.titulo().toUpperCase())
-                .peek(e -> System.out.println("tercer filtro (m>M)" + e))
-                .limit(5)//top 5
-
-                .forEach(System.out::println);
+//        System.out.println("Top 5 Episodios");
+//
+//        datosEpisodios.stream()
+//                .filter(e -> !e.evaluacion().equalsIgnoreCase("N/A"))
+//                .peek(e -> System.out.println("Primer filtro N/A" + e))
+//                .sorted(Comparator.comparing(DatosEpisodio::evaluacion).reversed())
+//                .peek(e -> System.out.println("Primer ordenar (M>m) " + e))
+//                .map(e -> e.titulo().toUpperCase())
+//                .peek(e -> System.out.println("tercer filtro (m>M)" + e))
+//                .limit(5)//top 5
+//
+//                .forEach(System.out::println);
 
         System.out.println("Episodios temporadas");
         //convertir los datos a una lista episodio
@@ -84,15 +81,15 @@ public class Principal {
                 .collect(Collectors.toList());
       //  episodios.forEach(System.out::println);
 
-        System.out.println("Fin episodios temporadas");
+        //System.out.println("Fin episodios temporadas");
 
 
 
-        System.out.println("Por favor indica el año a partir del cual deseas ver los episodios");
-        var fecha = teclado.nextInt();
-        teclado.nextLine();
-
-        LocalDate fechaBusqueda = LocalDate.of(fecha,1,1);
+      //  System.out.println("Por favor indica el año a partir del cual deseas ver los episodios");
+//        var fecha = teclado.nextInt();
+//        teclado.nextLine();
+//
+//        LocalDate fechaBusqueda = LocalDate.of(fecha,1,1);
 
 
 //        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -105,6 +102,18 @@ public class Principal {
 //
 //        ));
 
+
+        System.out.println("Escribe el titulo de deseas ver");
+        var pedazoTitulo = teclado.nextLine();
+        Optional<Episodio> episodioBuscado = episodios.stream()
+                .filter(e -> e.getTitulo().toUpperCase().contains(pedazoTitulo.toUpperCase()))//buscar el resultado
+                .findFirst();//buscar
+        if(episodioBuscado.isPresent()){
+            System.out.println(" Episodio encontrado");
+            System.out.println("Los datos son: " + episodioBuscado.get());
+        }else {
+            System.out.println("Episodio no encontrado");
+        }
 
     }
 
